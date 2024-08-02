@@ -1,0 +1,75 @@
+program                 =   statement+;
+
+
+// *** Statements ***
+statement               =   brace_statement
+                            | if_statement
+                            | return_statement
+                            | while_statement
+                            | do_while_statement
+                            | for_statement
+                            | expr_statement
+                            | SEMICOLON;
+
+brace_statement         =   LEFT_BRACE, {statement}, RIGHT_BRACE;
+
+if_statement            =   IF, paren_expression, statement, [ELSE, statement];
+
+return_statement        =   RETURN, expression, SEMICOLON;
+
+while_statement         =   WHILE, paren_expression, statement;
+
+do_while_statement      =   DO, statement, WHILE, paren_expression;
+
+for_statement           =   FOR, LEFT_PAREN, statement, expression_statement, expression, RIGHT_PAREN, statement;
+
+expression_statement    =   expression, SEMICOLON;
+
+declaration_statement   =   declaration, SEMICOLON;
+
+assignment_statement    =   assignment, SEMICOLON;
+
+
+// *** Expressions ***
+expression              =   equality;
+
+equality                =   comparison, {(EQUAL_EQUAL | NOT_EQUAL), comparison};
+
+comparison              =   term, {(GREATER | LESS | GREATER_EQUAL | LESS_EQUAL), term};
+
+term                    =   factor, {(MINUS | PLUS), factor};
+
+factor                  =   unary, {(DIVIDE | MULTIPLY), unary};
+
+unary                   =   unary_operator, unary
+                            | primary;
+
+primary                 =   identifier_expression | TRUE | FALSE | NIL
+                            | LEFT_PAREN, expression, RIGHT_PAREN;
+
+
+
+identifier_expression   =   IDENTIFIER, {DOT, IDENTIFIER};
+
+
+
+// *** Miscellaneous ***
+declaration             =   single_declaration, {COMMA, (IDENTIFIER | assignment)};
+
+single_declaration      =   data_type, (IDENTIFIER | assignment);
+
+assignment              =   IDENTIFIER, EQUAL, expression;
+
+function_definition     =   FUNC, IDENTIFIER, LEFT_PAREN, [single_declaration, {COMMA, single_declaration}], RIGHT_PAREN, [GREATER, data_type], statement;
+
+function_call           =   IDENTIFIER, LEFT_PAREN, [expression, {COMMA, expression}], RIGHT_PAREN;
+
+unary_operator          =   NOT | NEGATE | INCREMENT | DECREMENT;
+
+data_type               =   INT8 | INT16 | INT32 | INT64
+                            | UINT8 | UINT16 | UINT32 | UINT64
+                            | FLOAT | DOUBLE | BOOL
+                            | CHAR | STRING;
+
+binary_operator         =   PLUS | MINUS | MULTIPLY | DIVIDE
+                            | GREATER | LESS | GREATER_EQUAL | LESS_EQUAL | EQUAL_EQUAL | NOT_EQUAL;
