@@ -79,40 +79,17 @@ impl BosParser {
 
 
 	fn parse_factor(&mut self, tokens: &Vec<Token>) -> Result<Factor, BosError> {
-		let lhs = match self.parse_unary(tokens) {
-			Ok(u) => {u}
-			Err(e) => {return Err(e);}
-		};
-
-		let mut current_factor: Factor;
-
-		while (self.match_current(&*[TokenType::STAR, TokenType::SLASH, TokenType::MODULO], tokens)) {
-			let operator = match self.previous(tokens).unwrap().get_type() {
-				TokenType::STAR => {FactorOperator::Multiply}
-				TokenType::SLASH => {FactorOperator::Divide}
-				TokenType::MODULO => {FactorOperator::Modulo}
-				_ => {return Err(self.parser_error("This should be unreachable.".to_string(),
-												   self.previous(tokens).unwrap().get_line(),
-												   self.previous(tokens).unwrap().get_column()))}
-			};
-
-			let rhs = match self.parse_unary(tokens) {
-				Ok(u) => {u}
-				Err(e) => {return Err(e);}
-			};
-
-			current_factor = Factor {
-				lhs:lhs,
-				rhs: Some((operator, rhs))
-			};
-		}
-
-
+		Err(BosError {
+			name: "Parse Error".to_string(),
+			detail: "Unable to find next token.".to_string(),
+			line: 0,
+			column: 0,
+		})
 	}
 	
 	
 	fn parse_unary(&mut self, tokens: &Vec<Token>) -> Result<Unary, BosError> {
-		if (self.match_current(&*[TokenType::BANG, TokenType::MINUS], tokens)) {
+		if (self.match_current(&[TokenType::BANG, TokenType::MINUS], tokens)) {
 			let operator = match self.previous(tokens).unwrap().get_type() {
 				TokenType::MINUS => {UnaryOperator::Negate}
 				TokenType::BANG => {UnaryOperator::Not}

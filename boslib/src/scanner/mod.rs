@@ -121,6 +121,35 @@ impl Scanner {
                             }
                         }
                     },
+
+                    '\'' => {
+                        return match self.advance() {
+                            None => {
+                                Err(BosError {
+                                name: "Scan Error".to_string(),
+                                detail: "Failed to parse character literal.".to_string(),
+                                line: self.line,
+                                column: self.get_column(),
+                            })}
+                            Some(c) => {
+                                match c {
+
+                                    _ => {
+                                        if self.match_current('\'') {
+                                            Ok(Some(TokenType::CHAR_LIT))
+                                        } else {
+                                            Err(BosError {
+                                                name: "Scan Error".to_string(),
+                                                detail: "Only one character allowed within single-quote character literal.".to_string(),
+                                                line: self.line,
+                                                column: self.get_column(),
+                                            })
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
                     
                     '0'..='9' => {
                         return match self.scan_number() {
