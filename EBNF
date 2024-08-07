@@ -44,13 +44,14 @@ factor                  =   unary, {(DIVIDE | MULTIPLY), unary};
 unary                   =   unary_operator, unary
                             | primary;
 
-primary                 =   identifier_expression | TRUE | FALSE | NIL
+primary                 =   identifier_expression | function_expression | literal | TRUE | FALSE | NIL
                             | LEFT_PAREN, expression, RIGHT_PAREN;
 
 
 
 identifier_expression   =   IDENTIFIER, {DOT, IDENTIFIER};
 
+function_expression     =   function_call;
 
 
 // *** Miscellaneous ***
