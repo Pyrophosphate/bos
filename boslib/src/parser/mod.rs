@@ -2,8 +2,7 @@ use std::cmp::PartialEq;
 use std::num::ParseIntError;
 use std::string::ParseError;
 use crate::error_list::BosError;
-use crate::parser::ast_nodes::{Comparison, Equality, Expression, Evaluable, Factor, Primary, Term, Unary, UnaryOperator, FactorOperator};
-use crate::parser::ast_nodes::Primary::{Literal, ParenExpr};
+
 use crate::parser::data_type::DataType;
 use crate::token::{Token, TokenType};
 

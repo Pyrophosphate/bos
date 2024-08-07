@@ -12,13 +12,13 @@ struct Program {
 
 enum Statement {
 	BraceStatement(Vec<Statement>),
-	IfStatement(Expression, Statement),
-	ReturnStatement(Expression),
-	WhileStatement(Expression, Statement),
-	DoWhileStatement(Expression, Statement),
-	ForStatement(Statement, Expression, Expression, Statement),
-	ExpressionStatement(Expression),
-	PrintStatement(Expression),
+	IfStatement(Box<Expression>, Box<Statement>),
+	ReturnStatement(Box<Expression>),
+	WhileStatement(Box<Expression>, Box<Statement>),
+	DoWhileStatement(Box<Expression>, Box<Statement>),
+	ForStatement(Box<Statement>, Box<Expression>, Box<Expression>, Box<Statement>),
+	ExpressionStatement(Box<Expression>),
+	PrintStatement(Box<Expression>),
 }
 
 enum Expression {
